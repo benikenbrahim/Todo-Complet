@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./Atelier1.0
+    container_name: backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./Atelier1.0/.env
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env
