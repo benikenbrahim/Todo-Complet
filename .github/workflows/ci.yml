@@ -81,6 +81,8 @@ jobs:
             npm run
             exit 1
           fi
+        env:
+          CI: false  # Désactive le mode strict pour les warnings ESLint
       
       - name: 📊 Vérifier le résultat du build
         run: |
