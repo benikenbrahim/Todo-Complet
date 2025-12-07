@@ -39,6 +39,10 @@ mongoose.connection.on('error', (err) => {
 
 //////////////////////////////////////
 
+
+app.get('/health', (req, res) => res.json({ ok: true }));
+
+
 //route google
 
 
