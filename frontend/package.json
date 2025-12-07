@@ -1,7 +1,7 @@
 {
   "name": "todo",
   "version": "0.1.0",
-  "homepage": "https://benikenbrahim.github.io/Todo-Complet/frontend",
+  "homepage": "https://benikenbrahim.github.io/Todo-Complet/frontend/src",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
