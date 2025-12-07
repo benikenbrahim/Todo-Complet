@@ -1,0 +1,87 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:  # Permet de déclencher manuellement
+
+# Permissions nécessaires pour déployer sur GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# N'autorise qu'un seul déploiement à la fois
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Job 1 : Build du frontend
+  build:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+      
+      - name: 🟢 Configuration Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: 📦 Installation des dépendances
+        working-directory: ./frontend
+        run: |
+          if [ -f "package-lock.json" ]; then
+            npm ci
+          else
+            npm install
+          fi
+      
+      - name: 🏗️ Build de production
+        working-directory: ./frontend
+        run: npm run build
+        env:
+          CI: false  # Ne pas traiter les warnings comme des erreurs
+      
+      - name: 📊 Vérifier le build
+        run: |
+          echo "📁 Contenu du dossier build:"
+          ls -la frontend/build
+          echo ""
+          echo "📊 Taille du build:"
+          du -sh frontend/build
+      
+      - name: 📤 Upload de l'artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/build
+
+  # Job 2 : Déploiement sur GitHub Pages
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: 🚀 Déploiement sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      
+      - name: 🎉 Déploiement terminé
+        run: |
+          echo "════════════════════════════════════════════"
+          echo "✅ DÉPLOIEMENT RÉUSSI !"
+          echo "════════════════════════════════════════════"
+          echo ""
+          echo "🌐 Votre application est accessible sur :"
+          echo "   ${{ steps.deployment.outputs.page_url }}"
+          echo ""
+          echo "⏱️  Le site sera disponible dans ~30 secondes"
+          echo "════════════════════════════════════════════"
