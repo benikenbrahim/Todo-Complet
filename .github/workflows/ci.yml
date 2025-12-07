@@ -1,0 +1,104 @@
+name: CI - Tests et Build
+
+# Déclenche le workflow sur push et pull request vers main
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+# Variables d'environnement globales
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  # Job 1 : Frontend
+  frontend:
+    name: Frontend - Tests & Build
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./frontend
+    
+    steps:
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+      
+      - name: 🟢 Configuration Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      
+      - name: 📦 Installation des dépendances
+        run: npm ci
+      
+      - name: 🔍 Linting du code
+        run: npm run lint --if-present
+        continue-on-error: true  # Ne bloque pas si lint échoue
+      
+      - name: 🧪 Exécution des tests
+        run: npm test --if-present
+        env:
+          CI: true
+      
+      - name: 🏗️ Build de production
+        run: npm run build
+      
+      - name: 📤 Upload des artefacts de build
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: frontend/build/
+          retention-days: 7
+
+  # Job 2 : Backend
+  backend:
+    name: Backend - Tests & Vérifications
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./Atelier1.0
+    
+    steps:
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+      
+      - name: 🟢 Configuration Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: Atelier1.0/package-lock.json
+      
+      - name: 📦 Installation des dépendances
+        run: npm ci
+      
+      - name: 🔍 Linting du code
+        run: npm run lint --if-present
+        continue-on-error: true
+      
+      - name: 🧪 Exécution des tests
+        run: npm test --if-present
+        env:
+          CI: true
+      
+      - name: ✅ Vérification de la syntaxe
+        run: node --check $(find . -name "*.js" -not -path "./node_modules/*")
+
+  # Job 3 : Résumé final
+  ci-success:
+    name: ✅ CI Complète
+    runs-on: ubuntu-latest
+    needs: [frontend, backend]
+    if: success()
+    
+    steps:
+      - name: 🎉 Tous les tests sont passés
+        run: |
+          echo "✅ Frontend: OK"
+          echo "✅ Backend: OK"
+          echo "🎉 CI complète avec succès!"
