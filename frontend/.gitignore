@@ -9,10 +9,6 @@
 # testing
 /coverage
 
-# production
-/build
-postcss.config.js
-tailwind.config.js
 # misc
 .DS_Store
 .env.local
