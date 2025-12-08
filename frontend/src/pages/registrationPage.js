@@ -25,7 +25,7 @@ export function RegistrationPage() {
       return;
     }
 
-    fetch("https://todo-complet.onrender.com/", {
+    fetch("https://todo-complet.onrender.com/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
