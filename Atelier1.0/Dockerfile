@@ -18,4 +18,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=5s \
   CMD wget -qO- http://localhost:5000/ || exit 1
 
 # start
-CMD ["node", "server.js"]
+CMD ["node",  "ServiceLayer/index.js"]
