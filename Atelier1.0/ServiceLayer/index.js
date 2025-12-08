@@ -80,7 +80,7 @@ app.use(bodyParser.json());
 
 
 app.use(cors({
-    origin: 'http://localhost:3000', // URL de votre frontend React
+    origin: 'https://benikenbrahim.github.io/Todo-Complet', // URL de votre frontend React
     credentials: true, // Permet l'envoi de cookies
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
