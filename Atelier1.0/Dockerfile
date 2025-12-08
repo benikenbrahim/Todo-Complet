@@ -6,16 +6,26 @@ COPY package*.json ./
 RUN npm ci --production
 
 # copy source
-FROM node:18-alpine AS runner
+# ===== BASE NODE =====
+FROM node:18
+
+# ===== WORKDIR =====
 WORKDIR /app
-ENV NODE_ENV=production
-COPY --from=deps /app/node_modules ./node_modules
+
+# ===== COPY PACKAGE.JSON =====
+COPY package*.json ./
+
+# ===== INSTALL DEPENDENCIES =====
+RUN npm ci
+
+# ===== COPY PROJECT =====
 COPY . .
 # expose port que ton app utilise
 EXPOSE 5000
 # healthcheck (optionnel)
+
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s \
-  CMD wget -qO- http://localhost:5000/ || exit 1
+  CMD wget -qO- http://localhost:5000/health || exit 1
 
 # start
 CMD ["node",  "ServiceLayer/index.js"]
