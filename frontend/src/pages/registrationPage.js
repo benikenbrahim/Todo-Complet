@@ -25,7 +25,7 @@ export function RegistrationPage() {
       return;
     }
 
-    fetch(" https://render.com/docs/web-services#port-binding", {
+    fetch("https://todo-complet.onrender.com/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
