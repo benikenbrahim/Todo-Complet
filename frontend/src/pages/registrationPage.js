@@ -25,7 +25,7 @@ export function RegistrationPage() {
       return;
     }
 
-    fetch("http://localhost:5000/auth/register", {
+    fetch(" https://render.com/docs/web-services#port-binding", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

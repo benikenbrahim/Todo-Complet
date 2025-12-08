@@ -13,7 +13,7 @@ export function Profile() {
 
   const fetchTodos = async () => {
     try {
-      const response = await fetch("http://localhost:5000/Dashboard", {
+      const response = await fetch(" https://render.com/docs/web-services#port-binding/Dashboard", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
