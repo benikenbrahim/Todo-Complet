@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Sidbare from "../Component/Sidbare";
 
 export function Profile() {
   const [todos, setTodos] = useState([]);
@@ -39,8 +38,6 @@ export function Profile() {
   return (
      <div className="container-fluid vh-100 bg-light">
       <div className="row h-100">
-
-       <Sidbare />
 
         {/* Content */}
         <main className="col-9 col-lg-10 p-4">
