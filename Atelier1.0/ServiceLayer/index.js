@@ -7,7 +7,7 @@ const mongoose         = require('mongoose');
 const cors             = require('cors');
 const dotenv           = require('dotenv');
 const cockiesParser     = require('cookie-parser');
-const auth = require('./auth');
+const auth = require('../routes/auth');
 const passport = require("passport");
 dotenv.config();  
 const session = require('express-session');
