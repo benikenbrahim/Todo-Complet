@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Sidbare from "../Component/Sidbare";
 
 export function AboutPage() {
   const [todos, setTodos] = useState([]);
@@ -38,8 +37,6 @@ export function AboutPage() {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <Sidbare />
 
       {/* Content */}
       <main className="flex-1 p-6 overflow-y-auto">
