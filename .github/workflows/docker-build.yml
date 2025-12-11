@@ -2,9 +2,9 @@ name: Docker - Build & Vérification
 
 on:
   push:
-    branches: [ main, master ]
+    branches:    master # [ main, master ]
   pull_request:
-    branches: [ main, master ]
+    branches: master # [ main, master ]
 
 # Optionnel : déclencher manuellement
   workflow_dispatch:
