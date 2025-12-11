@@ -21,8 +21,6 @@ export function RegistrationPage() {
       alert("⚠️ Les mots de passe ne correspondent pas !");
       return;
     }
-
-    fetch("https://todo-complet.onrender.com/", {
     fetch("https://todo-complet.onrender.com/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
