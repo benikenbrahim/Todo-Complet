@@ -17,11 +17,16 @@ export default function Dashboard() {
    *   1. FETCH TASKS FROM BACKEND
    *  ============================ */
   useEffect(() => {
-    fetch("https://todo-complet.onrender.com/dashboard")
+    fetch("https://todo-complet.onrender.com/Dashboard", {
+      credentials: "include",
+    })
       .then(res => res.json())
       .then(data => {
-        console.log("Tâches fetchées:", data);
-        setTasks(data);
+        console.log("DATA REÇUE:", data);
+
+        // SÉCURISE: si ce n’est pas un array, mettre []
+        setTasks(Array.isArray(data) ? data : []);
+
         setLoadingTasks(false);
       })
       .catch(err => {
@@ -51,14 +56,15 @@ export default function Dashboard() {
     };
 
     try {
-      const res = await fetch(" https://todo-complet.onrender.com/createTodo", {
+      const res = await fetch("https://todo-complet.onrender.com/createTodo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(taskData),
       });
 
       const created = await res.json();
-      console.log("Tâche ajoutée:", created);
+
       setTasks([...tasks, created]);
       setShowForm(false);
       setNewTask({ title: "", details: "", type: "other" });
@@ -72,14 +78,15 @@ export default function Dashboard() {
    *  ============================ */
   const toggleTask = async (id, completed) => {
     try {
-      await fetch(` https://todo-complet.onrender.com/dashboard/${id}`, {
+      await fetch(`https://todo-complet.onrender.com/dashboard/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ completed }),
       });
 
       setTasks(tasks.map(t =>
-        t.id === id ? { ...t, completed } : t
+        t._id === id ? { ...t, completed } : t
       ));
     } catch (err) {
       console.error("Erreur toggle:", err);
@@ -88,11 +95,7 @@ export default function Dashboard() {
 
   return (
     <div className={`flex h-screen w-screen overflow-hidden ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}>
-
-
-      {/* =============================
-          SIDEBAR
-      ============================== */}
+      {/* SIDEBAR */}
       <aside
         className={`
           fixed top-0 left-0 h-full z-20 border-r transition-all duration-300 
@@ -101,6 +104,7 @@ export default function Dashboard() {
         `}
       >
         <div className="flex flex-col h-full p-4">
+
           <div className="text-center mb-6">
             <div className="w-20 h-20 bg-gray-500 rounded-full mx-auto"></div>
           </div>
@@ -111,13 +115,11 @@ export default function Dashboard() {
             <a href="/help" className="block p-3 rounded hover:bg-gray-300 dark:hover:bg-gray-700">Help</a>
             <a href="/home" className="block p-3 rounded hover:bg-gray-300 dark:hover:bg-gray-700">Log out</a>
           </nav>
+
         </div>
       </aside>
 
-
-      {/* =============================
-          MAIN CONTENT
-      ============================== */}
+      {/* MAIN CONTENT */}
       <main
         className={`
           flex-1 h-full overflow-y-auto transition-all duration-300 ml-0
@@ -140,25 +142,26 @@ export default function Dashboard() {
           {darkMode ? "☀️" : "🌙"}
         </button>
 
-        {/* MAIN INNER */}
+        {/* MAIN CONTENT */}
         <div className="p-10">
 
           <h1 className="text-2xl font-bold mb-6 dark:text-white">Liste des tâches</h1>
 
-          {/* LOADING */}
           {loadingTasks && <p className="text-gray-500">Chargement...</p>}
 
-          {/* TASKS LIST */}
+          {/* TASK LIST */}
           <div className="space-y-3 mb-6">
             {tasks.map((t, i) => (
               <div
-                key={t.id}
+                key={t._id}
                 className="flex items-center justify-between p-4 rounded-lg shadow border dark:bg-gray-800 dark:border-gray-700 bg-white"
               >
-                <span className="font-medium dark:text-gray-200">{i + 1}. {t.title}</span>
+                <span className="font-medium dark:text-gray-200">
+                  {i + 1}. {t.title}
+                </span>
 
                 <button
-                  onClick={() => toggleTask(t.id, !t.completed)}
+                  onClick={() => toggleTask(t._id, !t.completed)}
                   className={`w-6 h-6 border-2 rounded flex items-center justify-center
                     ${t.completed ? "bg-blue-500 border-blue-500" : "border-gray-400"}
                   `}
@@ -181,7 +184,7 @@ export default function Dashboard() {
             + Ajouter une tâche
           </button>
 
-          {/* ADD FORM */}
+          {/* ADD TASK FORM */}
           {showForm && (
             <form
               onSubmit={handleAddTask}
@@ -203,7 +206,7 @@ export default function Dashboard() {
                 value={newTask.details}
                 onChange={handleInputChange}
                 className="w-full p-2 rounded border dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              ></textarea>
+              />
 
               <select
                 name="type"
@@ -222,6 +225,7 @@ export default function Dashboard() {
               >
                 Enregistrer
               </button>
+
             </form>
           )}
         </div>
