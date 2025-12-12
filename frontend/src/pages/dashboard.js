@@ -17,7 +17,7 @@ export default function Dashboard() {
    *   1. FETCH TASKS FROM BACKEND
    *  ============================ */
   useEffect(() => {
-    fetch("https://ton-backend.com/tasks")
+    fetch("https://todo-complet.onrender.com/dashboard")
       .then(res => res.json())
       .then(data => {
         setTasks(data);
@@ -50,7 +50,7 @@ export default function Dashboard() {
     };
 
     try {
-      const res = await fetch(" https://todo-complet.onrender.com/dashboard", {
+      const res = await fetch(" https://todo-complet.onrender.com/createTodo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(taskData),
