@@ -20,6 +20,7 @@ export default function Dashboard() {
     fetch("https://todo-complet.onrender.com/dashboard")
       .then(res => res.json())
       .then(data => {
+        console.log("Tâches fetchées:", data);
         setTasks(data);
         setLoadingTasks(false);
       })
@@ -57,7 +58,7 @@ export default function Dashboard() {
       });
 
       const created = await res.json();
-
+      console.log("Tâche ajoutée:", created);
       setTasks([...tasks, created]);
       setShowForm(false);
       setNewTask({ title: "", details: "", type: "other" });
