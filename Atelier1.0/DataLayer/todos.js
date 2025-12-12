@@ -30,9 +30,9 @@ const Todo = mongoose.model('Todo', todoSchema);
   // Object.freeze(instance);
 
   // module.exports = instance;
-  async function getAllTodos() {
+  async function getAllTodos(userId) {
   try {
-    const todos = await Todo.find();  // retourne tous les documents
+    const todos = await Todo.find({ userId: userId });  // retourne tous les documents
     return todos;
   } catch (error) {
     console.error("Erreur lors de la récupération des todos :", error);

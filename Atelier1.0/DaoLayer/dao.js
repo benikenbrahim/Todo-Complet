@@ -5,7 +5,7 @@ const {addTodo, getTodo, deleteTodos} = require('../DataLayer/todos');
 
 const connectDB = () => {
     
-    mongoose.connect(process.env.MONGODB_URI )
+    mongoose.connect(process.env.MONGODB_URI||"mongodb://127.0.0.1:27017/atelier")
     .then(()=>console.log("Database connected successfully"))
     .catch((err)=>console.log("Database connection failed: ", err));
     return mongoose;

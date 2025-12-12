@@ -17,7 +17,7 @@ export default function Dashboard() {
    *   1. FETCH TASKS FROM BACKEND
    *  ============================ */
   useEffect(() => {
-    fetch("https://todo-complet.onrender.com/Dashboard", {
+    fetch("http://localhost:5000/Dashboard", {
       credentials: "include",
     })
       .then(res => res.json())
@@ -56,7 +56,7 @@ export default function Dashboard() {
     };
 
     try {
-      const res = await fetch("https://todo-complet.onrender.com/createTodo", {
+      const res = await fetch("http://localhost:5000/createTodo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

@@ -2,10 +2,13 @@ const routerTodos = require('express').Router();
 const {createTodo, readTodo, deleteTodo} = require('../DaoLayer/dao');
 
 const verfyjwt = require('../middlewares/verfyjwt');
+const decodeToken = require("../middlewares/decodetocken");
 
 routerTodos.post('/createTodo', verfyjwt, async (req, res) => {
     const { title, details, type, completed } = req.body;
-    const userId = req.cookies.ajs_anonymous_id; 
+    const decodedToken = decodeToken(req.cookies.accessToken);
+    const userId = decodedToken ? decodedToken.userId : null;
+    console.log("User ID from cookies:", userId);
     console.log("Received todo data:", req.body);
     try {
         const newTodo = {
