@@ -64,6 +64,7 @@ authrouter.post('/register', async (req, res) => {
 
 authrouter.post('/login', async (req, res) => {
     const { email, password } = req.body; 
+    console.log("Login attempt for email:", email);
     try {
         // Check if user exists
         const existingUser = await User.findOne({ $or: [{ email }] });
