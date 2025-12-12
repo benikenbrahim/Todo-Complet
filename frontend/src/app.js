@@ -7,9 +7,9 @@ import { AboutPage } from './pages/aboutPage';
 import Dashboard from './pages/dashboard';
 import {Profile} from './pages/Profile';
 import {Help} from './pages/help';
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-import { useEffect, useState } from "react";
 
+import { useEffect, useState } from "react";
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 
 function App() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
