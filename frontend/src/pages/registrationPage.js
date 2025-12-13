@@ -24,7 +24,7 @@ export function RegistrationPage() {
       alert("⚠️ Les mots de passe ne correspondent pas !");
       return;
     }
-    fetch("http://localhost:5000/auth/register", {
+    fetch("https://todo-complet.onrender.com/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

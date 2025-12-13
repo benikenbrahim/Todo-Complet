@@ -17,7 +17,7 @@ export default function Dashboard() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/Dashboard", {
+    fetch("https://todo-complet.onrender.com/Dashboard", {
       credentials: "include",
     })
       .then(res => res.json())
@@ -38,7 +38,7 @@ export default function Dashboard() {
 
   const deleteTask = async (id) => {
   try {
-    await fetch(`http://localhost:5000/dashboard/delete/${id}`, {
+    await fetch(`https://todo-complet.onrender.com/dashboard/delete/${id}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -67,7 +67,7 @@ export default function Dashboard() {
     };
 
     try {
-      const res = await fetch("http://localhost:5000/createTodo", {
+      const res = await fetch("https://todo-complet.onrender.com/createTodo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -85,7 +85,7 @@ export default function Dashboard() {
 
   const toggleTask = async (id, completed) => {
     try {
-      await fetch(`http://localhost:5000/dashboard/${id}`, {
+      await fetch(`https://todo-complet.onrender.com/dashboard/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

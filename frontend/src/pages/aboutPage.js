@@ -4,36 +4,7 @@ export function AboutPage() {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const userName = "sud INPT";
 
-  useEffect(() => {
-    fetchTodos();
-  }, []);
-
-  const fetchTodos = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/Dashboard", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
-
-      const data = await response.json();
-      setTodos(data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Erreur:", error);
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-slate-900">
-        <div className="text-lg text-slate-400">Chargement...</div>
-      </div>
-    );
-  }
 
   return (
     <div className="flex h-screen bg-gray-100">
