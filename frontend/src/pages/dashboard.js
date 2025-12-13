@@ -250,9 +250,11 @@ export default function Dashboard() {
                       </div>
 
                       <button
-                        onClick={() => toggleTask(task._id, !task.completed)}
+                        onClick={() => {
+                          toggleTask(task._id, !task.completed);
+                            window.location.reload();
+                        }}
                         
-                          redirect="/dashboard"
                         className={`
                           w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all
                           ${task.completed 
