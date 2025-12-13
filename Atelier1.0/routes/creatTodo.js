@@ -4,7 +4,7 @@ const {createTodo, readTodo, deleteTodo} = require('../DaoLayer/dao');
 const verfyjwt = require('../middlewares/verfyjwt');
 const decodeToken = require("../middlewares/decodetocken");
 
-routerTodos.post('/createTodo', verfyjwt, async (req, res) => {
+routerTodos.post('/createTodo', async (req, res) => {
     const { title, details, type, completed } = req.body;
     const decodedToken = decodeToken(req.cookies.accessToken);
     const userId = decodedToken ? decodedToken.userId : null;
@@ -26,7 +26,7 @@ routerTodos.post('/createTodo', verfyjwt, async (req, res) => {
     }
 });
 
-routerTodos.get('/getTodo', verfyjwt, async(req,res)=>{
+routerTodos.get('/getTodo', async(req,res)=>{
     const userId = req.query.userId;
     try{
         const todos= await readTodo(userId);
