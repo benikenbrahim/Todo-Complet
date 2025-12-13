@@ -251,6 +251,8 @@ export default function Dashboard() {
 
                       <button
                         onClick={() => toggleTask(task._id, !task.completed)}
+                        
+                          redirect="/dashboard"
                         className={`
                           w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all
                           ${task.completed 
@@ -261,7 +263,25 @@ export default function Dashboard() {
                       >
                         {task.completed && <Check size={16} className="text-white" />}
                       </button>
+                      
+                    <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      
+                    <button
+                      onClick={() => deleteTask(task._id)}
+                      className={`
+                        flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm
+                        transition-colors border
+                        ${darkMode 
+                          ? "bg-gray-700 hover:bg-gray-600 text-gray-200 border-gray-600"
+                          : "bg-gray-200 hover:bg-gray-300 text-gray-700 border-gray-300"}
+                      `}
+                    >
+                      Delete
+                    </button>
+
+                  </div>
                     </div>
+
 
                     {task.details && (
                       <p className={`text-sm mb-3 line-clamp-2 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
@@ -285,18 +305,7 @@ export default function Dashboard() {
                         <Eye size={16} />
                         Voir
                       </button>
-                      <button
-                          onClick={() => deleteTask(task._id)}
-                          className={`
-                            flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm
-                            transition-colors
-                            ${darkMode 
-                              ? "bg-gray-700 hover:bg-gray-600 text-gray-300" 
-                              : "bg-gray-100 hover:bg-gray-200 text-gray-600"}
-                          `}
-                        >
-                          Delete
-                        </button>
+                     
 
                     </div>
                   </div>
@@ -414,7 +423,7 @@ export default function Dashboard() {
                 </div>
 
                 <div className={`px-4 py-2 rounded-lg font-semibold ${selectedTask.completed ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200" : "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200"}`}>
-                  {selectedTask.completed ? "✓ Complétée" : "⏳ En cours"}
+                  {selectedTask.completed ? " complete" : "not yet"}
                 </div>
               </div>
 
