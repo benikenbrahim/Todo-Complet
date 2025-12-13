@@ -7,6 +7,7 @@ import { AboutPage } from './pages/aboutPage';
 import Dashboard from './pages/dashboard';
 import {Profile} from './pages/Profile';
 import {Help} from './pages/help';
+import PrivateRoute from "./routes/privet"
 
 import { useEffect, useState } from "react";
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -42,20 +43,45 @@ function App() {
 
       {/* Le reste de ton app */}
       <div className="App">
-      <header className="App-header">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/userCancel" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/authenticate" element={<AuthenticationPage />} />
-          <Route path="/register" element={<RegistrationPage />} />
-          <Route path="/Dashboard" element={<Dashboard/>}/>
-          <Route path="/Profile" element={<Profile/>}/>
-          <Route path="/help" element= {<Help/>}/>
-        </Routes>
-      </header>
+        <header className="App-header">
+          <Routes>
+            {/* ROUTES PUBLIQUES */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/authenticate" element={<AuthenticationPage />} />
+            <Route path="/register" element={<RegistrationPage />} />
+            <Route path="/help" element={<Help />} />
 
-    </div>
+            {/* ROUTES PRIVÉES */}
+            <Route
+              path="/Dashboard"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/Profile"
+              element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/userCancel"
+              element={
+                <PrivateRoute>
+                  <HomePage />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </header>
+      </div>
     </div>
   );
 }

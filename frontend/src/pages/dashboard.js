@@ -36,6 +36,26 @@ export default function Dashboard() {
     setNewTask({ ...newTask, [e.target.name]: e.target.value });
   };
 
+  const deleteTask = async (id) => {
+  try {
+    await fetch(`http://localhost:5000/dashboard/delete/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    // Mise à jour du state
+    setTasks(prev => prev.filter(task => task._id !== id));
+
+    // Si le modal est ouvert
+    if (selectedTask?._id === id) {
+      setSelectedTask(null);
+    }
+
+  } catch (err) {
+    console.error("Erreur suppression task:", err);
+  }
+};
+
   const handleAddTask = async (e) => {
     e.preventDefault();
 
@@ -125,13 +145,13 @@ export default function Dashboard() {
               </div>
               <div className={`p-3 rounded-lg ${darkMode ? "bg-gray-700" : "bg-green-50"}`}>
                 <div className="flex justify-between items-center">
-                  <span className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}>Complétées</span>
+                  <span className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}>Complet</span>
                   <span className={`font-bold ${darkMode ? "text-green-400" : "text-green-600"}`}>{stats.completed}</span>
                 </div>
               </div>
               <div className={`p-3 rounded-lg ${darkMode ? "bg-gray-700" : "bg-orange-50"}`}>
                 <div className="flex justify-between items-center">
-                  <span className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}>En cours</span>
+                  <span className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}>Not yet</span>
                   <span className={`font-bold ${darkMode ? "text-orange-400" : "text-orange-600"}`}>{stats.pending}</span>
                 </div>
               </div>
@@ -139,18 +159,18 @@ export default function Dashboard() {
 
             <nav className="space-y-2 flex-1">
               <a className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${darkMode ? "hover:bg-gray-700 text-gray-300" : "hover:bg-gray-100 text-gray-700"}`}>
-                <span>📋</span> Mes Tâches
+                <span></span> Tasks
               </a>
-              <a href="/about" className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${darkMode ? "hover:bg-gray-700 text-gray-300" : "hover:bg-gray-100 text-gray-700"}`}>
-                <span>ℹ️</span> À propos
+              <a href="/Todo-complet/about" className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${darkMode ? "hover:bg-gray-700 text-gray-300" : "hover:bg-gray-100 text-gray-700"}`}>
+                <span></span> About
               </a>
-              <a href="/help" className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${darkMode ? "hover:bg-gray-700 text-gray-300" : "hover:bg-gray-100 text-gray-700"}`}>
-                <span>❓</span> Aide
+              <a href="Todo-complet/help" className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${darkMode ? "hover:bg-gray-700 text-gray-300" : "hover:bg-gray-100 text-gray-700"}`}>
+                <span></span> Help
               </a>
             </nav>
 
-            <a href="/home" className={`mt-4 flex items-center gap-3 p-3 rounded-lg transition-colors ${darkMode ? "bg-red-900 hover:bg-red-800 text-red-200" : "bg-red-50 hover:bg-red-100 text-red-700"}`}>
-              <span>🚪</span> Déconnexion
+            <a href="/Todo-complet/home" className={`mt-4 flex items-center gap-3 p-3 rounded-lg transition-colors ${darkMode ? "bg-red-900 hover:bg-red-800 text-red-200" : "bg-red-50 hover:bg-red-100 text-red-700"}`}>
+              <span> </span> Sign out
             </a>
           </div>
         )}
@@ -192,7 +212,7 @@ export default function Dashboard() {
                 onClick={() => setDarkMode(!darkMode)}
                 className={`p-2 rounded-lg transition-colors ${darkMode ? "bg-gray-700 text-yellow-400" : "bg-gray-200 text-gray-700"}`}
               >
-                {darkMode ? "☀️" : "🌙"}
+                {darkMode ? "dark" : "light"}
               </button>
             </div>
           </div>
@@ -252,7 +272,7 @@ export default function Dashboard() {
                     {task.sous_tasks && task.sous_tasks.length > 0 && (
                       <div className="mb-3">
                         <span className={`text-xs ${darkMode ? "text-gray-500" : "text-gray-500"}`}>
-                          {task.sous_tasks.length} sous-tâche(s)
+                          {task.sous_tasks.length} Sub Tasks(s)
                         </span>
                       </div>
                     )}
@@ -265,6 +285,19 @@ export default function Dashboard() {
                         <Eye size={16} />
                         Voir
                       </button>
+                      <button
+                          onClick={() => deleteTask(task._id)}
+                          className={`
+                            flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm
+                            transition-colors
+                            ${darkMode 
+                              ? "bg-gray-700 hover:bg-gray-600 text-gray-300" 
+                              : "bg-gray-100 hover:bg-gray-200 text-gray-600"}
+                          `}
+                        >
+                          Delete
+                        </button>
+
                     </div>
                   </div>
                 </div>
@@ -344,9 +377,9 @@ export default function Dashboard() {
 
               <button
                 onClick={handleAddTask}
-                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 rounded-lg transition-all duration-200"
+                className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 rounded-lg transition-all duration-200"
               >
-                Créer la Tâche
+                Create a task
               </button>
             </div>
           </div>

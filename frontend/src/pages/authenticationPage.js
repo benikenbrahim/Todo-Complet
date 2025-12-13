@@ -31,6 +31,7 @@ export function AuthenticationPage() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Réponse backend :", data);
+        localStorage.setItem("accessToken", data.accessToken);
         if (data.message === "User logged in successfully") {
           navigate("/Dashboard");
         } else {

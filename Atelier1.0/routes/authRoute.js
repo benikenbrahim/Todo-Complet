@@ -108,6 +108,12 @@ authrouter.post('/login', async (req, res) => {
     }
 });
 
+authrouter.get("/me", (req, res) => {
+    console.log("try to get /auth/me");
+  res.status(200).json({
+    userId: req.userId
+  });
+});
 
 authrouter.get('/refresh', (req, res) => {
     const refreshToken = req.cookies.refreshToken;

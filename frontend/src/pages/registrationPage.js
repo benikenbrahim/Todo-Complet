@@ -35,7 +35,7 @@ export function RegistrationPage() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
+        console.log("stocke acces token dans local storage:", data);
       })
       .catch((error) => console.error("Error:", error));
   };

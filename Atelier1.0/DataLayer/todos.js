@@ -30,6 +30,23 @@ const Todo = mongoose.model('Todo', todoSchema);
   // Object.freeze(instance);
 
   // module.exports = instance;
+
+async function updateTodoCompleted(todoId, userId, completed) {
+  try {
+    const updatedTodo = await Todo.findOneAndUpdate(
+      { _id: todoId, userId }, // 🔐 sécurité
+      { completed },
+      { new: true }
+    );
+
+    return updatedTodo;
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du todo :", error);
+    throw error;
+  }
+}
+
+
   async function getAllTodos(userId) {
   try {
     const todos = await Todo.find({ userId: userId });  // retourne tous les documents
@@ -64,4 +81,17 @@ const Todo = mongoose.model('Todo', todoSchema);
   return result;
 }
 
-  module.exports = { Todo ,addTodo, getTodo, getTodos,deleteTodos, findTodosByUserId, getAllTodos };
+async function deleteTodoById(todoId, userId) {
+  try {
+    return await Todo.findOneAndDelete({
+      _id: todoId,
+      userId // 🔐 sécurité
+    });
+  } catch (error) {
+    console.error("Erreur suppression todo :", error);
+    throw error;
+  }
+}
+
+
+  module.exports = { Todo ,addTodo, getTodo, getTodos,deleteTodos, findTodosByUserId, getAllTodos,updateTodoCompleted,deleteTodoById };
