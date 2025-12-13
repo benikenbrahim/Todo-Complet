@@ -85,7 +85,6 @@ authrouter.post('/login', async (req, res) => {
             REFRESH_TOKEN_SECRET,
             { expiresIn: '7d' }
         );
-        console.log('tokens generated');
 
         // Cookies settings for development
         res.cookie('accessToken', accessToken, {
@@ -100,7 +99,7 @@ authrouter.post('/login', async (req, res) => {
             sameSite: 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
-        res.status(200).json({ message: 'User logged in successfully' });
+        res.status(200).json({ accessToken: accessToken, refreshToken:refreshToken });
 
     } catch (error) {
         console.error('Login error:', error);
