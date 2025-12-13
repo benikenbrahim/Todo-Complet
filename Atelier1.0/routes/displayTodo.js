@@ -66,7 +66,7 @@ router.patch("/dashboard/:id", verfyjwt, async (req, res) => {
 });
 
 
-router.get('/Dashboard', verfyjwt, async (req, res) => {
+router.get('/Dashboard', async (req, res) => {
     const decodeTocken=decodeToken(req.cookies.accessToken);
     const userId= decodeTocken ? decodeTocken.userId : null;
     // Fetch todos from database using userId
