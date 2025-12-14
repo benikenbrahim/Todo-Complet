@@ -99,7 +99,7 @@ authrouter.post('/login', async (req, res) => {
             sameSite: 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
-        res.status(200).json({ accessToken: accessToken, refreshToken:refreshToken });
+        res.status(200).json({ message: 'User logged in successfully' });
 
     } catch (error) {
         console.error('Login error:', error);
